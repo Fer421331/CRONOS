@@ -1,0 +1,85 @@
+:root {
+  --purple: #b46bff;
+  --purple-glow: rgba(180, 107, 255, 0.9);
+  --bg: #05050a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at center, #0b0b18, var(--bg));
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+.container {
+  display: grid;
+  place-items: center;
+}
+
+.core-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+.core-ring {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 4px solid var(--purple);
+  box-shadow:
+    0 0 20px var(--purple-glow),
+    0 0 60px rgba(180, 107, 255, 0.6);
+}
+
+.info {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  color: #d6c6ff;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.controls {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls button {
+  background: transparent;
+  border: 1px solid var(--purple);
+  color: #d6c6ff;
+  padding: 6px 12px;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.controls button:hover {
+  background: rgba(180, 107, 255, 0.15);
+  box-shadow: 0 0 10px var(--purple-glow);
+}

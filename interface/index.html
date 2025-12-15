@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C.R.O.N.O.S. – Beta</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+
+  <main class="container">
+    <section class="core-container" id="cronos">
+      <span class="wave"></span>
+      <span class="wave"></span>
+      <span class="wave"></span>
+      <div class="core-ring"></div>
+    </section>
+
+    <footer class="info">
+      <div class="label">C.R.O.N.O.S.</div>
+      <div class="status" id="status">ACTIVO · EN SILENCIO</div>
+    </footer>
+
+    <section class="controls">
+  <button data-state="idle">IDLE</button>
+  <button data-state="listening">LISTENING</button>
+  <button data-state="thinking">THINKING</button>
+  <button data-state="speaking">SPEAKING</button>
+  <button data-state="error">ERROR</button>
+</section>
+
+  </main>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+.wave {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 2px solid rgba(180, 107, 255, 0.9);
+  opacity: 0;
+}
+
+/* SOLO cuando CRONOS habla */
+.speaking .wave {
+  animation: pulse 2.5s infinite;
+}
+
+.wave:nth-child(1) { animation-delay: 0s; }
+.wave:nth-child(2) { animation-delay: 0.8s; }
+.wave:nth-child(3) { animation-delay: 1.6s; }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
