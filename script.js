@@ -1,71 +1,81 @@
 // ===============================
-// C.R.O.N.O.S. STATE MACHINE v1.0
+// CRONOS – Frontend Controller
 // ===============================
 
-const CRONOS = {
-  state: 'idle',
+const API_URL = "http://localhost:8000";
 
-  elements: {
-    core: document.getElementById('cronos'),
-    status: document.getElementById('status')
-  },
+const cronos = document.getElementById("cronos");
+const statusText = document.getElementById("status");
+const buttons = document.querySelectorAll(".controls button");
 
-  setState(newState) {
-    if (this.state === newState) return;
+let currentState = "idle";
 
-    this._exitState(this.state);
-    this.state = newState;
-    this._enterState(newState);
-  },
+// ===============================
+// Actualizar UI según estado
+// ===============================
+function updateUI(state) {
+  // limpiar estados previos
+  cronos.classList.remove(
+    "idle",
+    "listening",
+    "thinking",
+    "speaking",
+    "error"
+  );
 
-  _enterState(state) {
-    switch (state) {
-      case 'idle':
-        this.elements.core.classList.remove('speaking');
-        this.elements.status.textContent = 'ACTIVO · EN SILENCIO';
-        break;
+  cronos.classList.add(state);
 
-      case 'speaking':
-        this.elements.core.classList.add('speaking');
-        this.elements.status.textContent = 'HABLANDO';
-        break;
+  // texto humano
+  const labels = {
+    idle: "ACTIVO · EN SILENCIO",
+    listening: "ESCUCHANDO…",
+    thinking: "PROCESANDO…",
+    speaking: "HABLANDO",
+    error: "ERROR DEL SISTEMA"
+  };
 
-      case 'listening':
-        this.elements.status.textContent = 'ESCUCHANDO';
-        break;
+  statusText.textContent = labels[state] || state.toUpperCase();
+}
 
-      case 'thinking':
-        this.elements.status.textContent = 'PROCESANDO';
-        break;
+// ===============================
+// Obtener estado desde backend
+// ===============================
+async function fetchState() {
+  try {
+    const res = await fetch(`${API_URL}/state`);
+    const data = await res.json();
 
-      case 'error':
-        this.elements.status.textContent = 'ERROR DEL SISTEMA';
-        break;
-
-      default:
-        console.warn(`Estado desconocido: ${state}`);
+    if (data.state !== currentState) {
+      currentState = data.state;
+      updateUI(currentState);
     }
-  },
-
-  _exitState(state) {
-    // Espacio para limpieza futura (timers, audio, etc.)
+  } catch (err) {
+    console.warn("Backend no disponible");
   }
-};
+}
 
 // ===============================
-// PRUEBA CONTROLADA (TEMPORAL)
+// Cambiar estado (manual / botones)
 // ===============================
-
-setTimeout(() => CRONOS.setState('speaking'), 3000);
-setTimeout(() => CRONOS.setState('idle'), 9000);
+async function setState(state) {
+  try {
+    await fetch(`${API_URL}/state/${state}`, { method: "POST" });
+  } catch (err) {
+    console.error("No se pudo cambiar el estado");
+  }
+}
 
 // ===============================
-// CONTROLES MANUALES (DEV MODE)
+// Botones de prueba
 // ===============================
-
-document.querySelectorAll('[data-state]').forEach(button => {
-  button.addEventListener('click', () => {
-    const state = button.getAttribute('data-state');
-    CRONOS.setState(state);
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const state = btn.dataset.state;
+    setState(state);
   });
 });
+
+// ===============================
+// Loop de sincronización
+// ===============================
+setInterval(fetchState, 500);
