@@ -1,8 +1,8 @@
 print(">>> SERVER.PY DE CRONOS CARGADO <<<")
 
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from backend.core.state import get_state, set_state
 
 app = FastAPI(
     title="C.R.O.N.O.S. Core",
@@ -18,19 +18,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-cronos_state = {
-    "state": "idle"
-}
-
 @app.get("/")
 def root():
     return {"message": "C.R.O.N.O.S. Core activo"}
 
 @app.get("/state")
-def get_state():
-    return cronos_state
+def state():
+    return get_state()
 
 @app.post("/state/{new_state}")
-def set_state(new_state: str):
-    cronos_state["state"] = new_state
-    return {"status": "ok", "state": new_state}
+def update_state(new_state: str):
+    set_state(new_state)
+    return {"ok": True, "state": new_state}
