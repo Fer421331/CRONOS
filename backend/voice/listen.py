@@ -1,8 +1,16 @@
 import speech_recognition as sr
-from backend.core.state import set_state
+import requests
+
+API_URL = "http://localhost:8000/state"
 
 recognizer = sr.Recognizer()
 mic = sr.Microphone()
+
+def set_state(state: str):
+    try:
+        requests.post(f"{API_URL}/{state}")
+    except:
+        pass
 
 def listen():
     with mic as source:

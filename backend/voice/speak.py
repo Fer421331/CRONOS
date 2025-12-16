@@ -1,17 +1,25 @@
 import pyttsx3
-from backend.core.state import set_state
+import requests
+
+API_URL = "http://localhost:8000/state"
 
 engine = pyttsx3.init()
 engine.setProperty("rate", 165)
+
+def set_state(state: str):
+    try:
+        requests.post(f"{API_URL}/{state}")
+    except:
+        pass
 
 def speak(text: str):
     if not text:
         return
 
-    try:
-        set_state("speaking")
-        print("🗣️ CRONOS dice:", text)
-        engine.say(text)
-        engine.runAndWait()
-    finally:
-        set_state("idle")
+    set_state("speaking")
+    print("🗣️ CRONOS dice:", text)
+
+    engine.say(text)
+    engine.runAndWait()
+
+    set_state("idle")
